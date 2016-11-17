@@ -1,0 +1,142 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.test</groupId>
+    <artifactId>demo-parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <artifactId>demo-api</artifactId>
+   <packaging>jar</packaging>
+      <name>demo-api Maven Webapp</name>
+      <url>http://maven.apache.org</url>
+      <dependencies>
+            <!-- CDS start -->
+            <dependency>
+                  <groupId>com.test</groupId>
+                  <artifactId>demo-basic</artifactId>
+                  <version>${project.version}</version>
+            </dependency>
+            <!-- CDS end -->
+           
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
+                <version>2.0.1</version>
+            </dependency>
+           
+            <dependency>
+                  <groupId>junit</groupId>
+                  <artifactId>junit</artifactId>
+                  <version>3.8.1</version>
+                  <scope>test</scope>
+            </dependency>
+           
+            <!-- Cxf Config Start -->
+            <dependency>
+                  <groupId>org.apache.cxf</groupId>
+                  <artifactId>cxf-rt-frontend-jaxws</artifactId>
+                  <version>2.6.8</version>
+            </dependency>
+            <dependency>
+                  <groupId>org.apache.cxf</groupId>
+                  <artifactId>cxf-rt-transports-http</artifactId>
+                  <version>2.6.8</version>
+            </dependency>
+            <dependency>
+                  <groupId>org.apache.cxf</groupId>
+                  <artifactId>cxf-api</artifactId>
+                  <version>2.6.8</version>
+            </dependency>
+           
+           
+            <!-- jdk.tools start -->
+            <dependency>
+                  <groupId>jdk.tools</groupId>
+                  <artifactId>jdk.tools</artifactId>
+                  <version>1.7</version>
+                  <scope>system</scope>
+                  <systemPath>${java.home}/lib/tools.jar</systemPath>
+            </dependency>
+            <!-- jdk.tools end -->
+           
+            <!-- spring start -->
+            <dependency>
+                  <groupId>org.springframework</groupId>
+                  <artifactId>spring-test</artifactId>
+                  <version>4.1.7.RELEASE</version>
+            </dependency>
+            <dependency>
+                  <groupId>org.springframework</groupId>
+                  <artifactId>spring-webmvc</artifactId>
+                  <version>4.1.7.RELEASE</version>
+            </dependency>
+            <dependency>
+                  <groupId>org.springframework</groupId>
+                  <artifactId>spring-core</artifactId>
+                  <version>4.1.7.RELEASE</version>
+            </dependency>
+            <!-- spring end -->
+           
+            <!-- log4j start -->
+            <dependency>
+                  <groupId>org.slf4j</groupId>
+                  <artifactId>slf4j-api</artifactId>
+                  <version>1.6.6</version>
+            </dependency>
+            <dependency>
+                  <groupId>org.slf4j</groupId>
+                  <artifactId>jcl-over-slf4j</artifactId>
+                  <version>1.6.6</version>
+                  <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                  <groupId>org.slf4j</groupId>
+                  <artifactId>slf4j-log4j12</artifactId>
+                  <version>1.6.6</version>
+                  <scope>runtime</scope>
+            </dependency>
+            <!-- log4j end -->
+           
+            <!-- JSON start -->
+            <dependency>
+                  <groupId>com.alibaba</groupId>
+                  <artifactId>fastjson</artifactId>
+                  <version>1.1.26</version>
+            </dependency>
+            <!-- JSON end -->
+           
+            <!-- mybatis Start -->
+            <dependency>
+                  <groupId>org.mybatis</groupId>
+                  <artifactId>mybatis</artifactId>
+                  <version>3.1.1</version>
+            </dependency>
+            <dependency>
+                  <groupId>org.mybatis</groupId>
+                  <artifactId>mybatis-spring</artifactId>
+                  <version>1.1.1</version>
+            </dependency>
+            <!-- mybatis end -->
+           
+           
+            <!-- servlet start -->
+            <dependency>
+                  <groupId>javax.servlet</groupId>
+                  <artifactId>servlet-api</artifactId>
+                  <version>3.0-alpha-1</version>
+                  <scope>provided</scope>
+            </dependency>
+            <!-- servlet end -->
+           
+            <!-- apache.commons start -->
+            <dependency>
+                  <groupId>commons-lang</groupId>
+                  <artifactId>commons-lang</artifactId>
+                  <version>2.2</version>
+            </dependency>
+            <!-- apache.commons end -->
+      </dependencies>
+      <build>
+            <finalName>demo-api</finalName>
+      </build>
+</project>

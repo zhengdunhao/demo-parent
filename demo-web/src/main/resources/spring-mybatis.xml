@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:aop="http://www.springframework.org/schema/aop"
+xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+">
+	<!-- config datasource -->
+	<bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="url" value="${jdbc_url}" />
+		<property name="username" value="${jdbc_username}" />
+		<property name="password" value="${jdbc_password}" />
+
+		<!-- initial connection size -->
+		<property name="initialSize" value="0" />
+		<!-- max connection size -->
+		<property name="maxActive" value="20" />
+		<!-- max connection idle time -->
+		<property name="maxIdle" value="20" />
+		<!-- min connection idle time -->
+		<property name="minIdle" value="0" />
+		<!-- max waiting time when acquired connection -->
+		<property name="maxWait" value="60000" />
+
+		<!-- <property name="poolPreparedStatements" value="true" /> <property 
+			name="maxPoolPreparedStatementPerConnectionSize" value="33" /> -->
+
+		<property name="validationQuery" value="${validationQuery}" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+		<property name="testWhileIdle" value="true" />
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<property name="minEvictableIdleTimeMillis" value="25200000" />
+		<property name="removeAbandoned" value="true" />
+		<property name="removeAbandonedTimeout" value="1800" />
+		<property name="logAbandoned" value="true" />
+		<property name="filters" value="mergeStat" />
+	</bean>
+
+	<!-- myBatis file -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<!-- auto scan entity directory,no need to configure Configuration.xml 
+			file by manual -->
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<!-- this can auto scan xml file ,but can not test by Junit -->
+		<!-- <property name="mapperLocations" value="classpath:com/isprint/server/cds/model/**/mapping/*.xml" 
+			/> -->
+	</bean>
+
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage"
+			value="com.isprint.server.cds.basic.dao,
+			com.isprint.server.cds.module.sku.dao,
+			com.isprint.server.cds.module.company.dao,
+			com.isprint.server.cds.module.log.dao,
+			com.isprint.server.cds.module.user.dao,
+			com.isprint.server.cds.module.role.dao,
+			com.isprint.server.cds.module.boxtemp.dao,
+			com.isprint.server.cds.module.uaid.dao,
+			com.isprint.server.cds.module.sku.dao,
+			com.isprint.server.cds.module.user.dao,
+			com.isprint.server.cds.module.customer.dao,
+			com.isprint.server.cds.module.partner.dao,
+			com.isprint.server.cds.module.log.dao,
+			com.isprint.server.cds.module.pack.dao,
+			com.isprint.server.cds.module.shipment.dao,
+			com.isprint.server.cds.module.receipt.dao,
+			com.isprint.server.cds.module.news.dao,
+			com.isprint.server.cds.module.fake.dao,
+			com.isprint.server.cds.module.ad.dao,
+			com.isprint.server.cds.module.task.dao,
+			com.isprint.server.cds.module.token.dao,
+			com.isprint.server.cds.module.filemove.dao,
+			com.isprint.server.cds.module.publickey.dao,
+			com.isprint.server.cds.module.apimanage.dao,
+			com.isprint.server.cds.module.member.dao,
+			com.isprint.server.cds.module.profile.dao,
+			com.isprint.server.cds.module.activity.dao,
+			com.isprint.server.cds.module.charts.dao,
+			com.isprint.server.cds.module.pay.dao,
+			com.isprint.server.cds.module.cases.dao,
+			com.isprint.server.cds.module.i18n.dao,
+			com.isprint.server.cds.module.tag.dao,
+			com.isprint.server.mc.module.school.dao,
+			com.isprint.server.mc.module.tag.dao,
+			com.isprint.server.mc.module.user.dao,
+			com.isprint.server.mc.module.content.dao,
+			com.isprint.server.mc.module.message.dao,
+			com.isprint.server.mc.module.scan.dao,
+			com.isprint.server.mc.module.marketing.dao" />
+
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+	<!-- configure transaction -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- annotation transaction -->
+	<!-- <tx:annotation-driven transaction-manager="transactionManager" /> -->
+
+	<!-- interception transatcion -->
+	<tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="append*" propagation="REQUIRED" />
+			<tx:method name="insert*" propagation="REQUIRED" />
+			<tx:method name="save*" propagation="REQUIRED"
+				rollback-for="com.isprint.server.cds.basic.exception.RollbackException" />
+			<tx:method name="update*" propagation="REQUIRED" />
+			<tx:method name="modify*" propagation="REQUIRED" />
+			<tx:method name="edit*" propagation="REQUIRED" />
+			<tx:method name="delete*" propagation="REQUIRED" />
+			<tx:method name="remove*" propagation="REQUIRED" />
+			<tx:method name="repair" propagation="REQUIRED" />
+			<tx:method name="delAndRepair" propagation="REQUIRED" />
+			<tx:method name="getResponeXml" propagation="REQUIRED" />
+
+			<tx:method name="get*" propagation="SUPPORTS" />
+			<tx:method name="find*" propagation="SUPPORTS" />
+			<tx:method name="load*" propagation="SUPPORTS" />
+			<tx:method name="search*" propagation="SUPPORTS" />
+			<tx:method name="datagrid*" propagation="SUPPORTS" />
+			
+			<tx:method name="*" propagation="SUPPORTS" />
+			
+			<tx:method name="register*" propagation="REQUIRED"
+				rollback-for="com.isprint.server.cds.basic.exception.RollbackException" />
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut id="transactionPointcut"
+			expression="execution(* com.isprint.server.cds..service..*Impl.*(..))" />
+		<aop:advisor pointcut-ref="transactionPointcut"
+			advice-ref="transactionAdvice" />
+	</aop:config>
+
+	<aop:config>
+		<aop:pointcut id="transactionPointcutMc"
+			expression="execution(* com.isprint.server.mc..service..*Impl.*(..))" />
+		<aop:advisor pointcut-ref="transactionPointcutMc"
+			advice-ref="transactionAdvice" />
+	</aop:config>
+
+	<!-- configure druid listener spring jdbc -->
+	<bean id="druid-stat-interceptor"
+		class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+	</bean>
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+		scope="prototype">
+		<property name="patterns">
+			<list>
+				<value>com.isprint.server.cds..service.*</value>
+				<value>com.isprint.server.mc..service.*</value>
+			</list>
+		</property>
+	</bean>
+	<aop:config>
+		<aop:advisor advice-ref="druid-stat-interceptor"
+			pointcut-ref="druid-stat-pointcut" />
+	</aop:config>
+	
+
+
+	<bean id="phoneRequestAop" class="com.isprint.server.cds.module.log.util.PhoneRequestAop"/>
+	
+
+	
+	<aop:config>
+	    <aop:aspect id="phoneReqAsp" ref="phoneRequestAop">
+	      <aop:around method="requestLog" pointcut="execution(* com.isprint.server.cds.module..restful.impl.*RestfulImpl.*(..))"/>
+	      <aop:around method="requestLog" pointcut="execution(* com.isprint.server.cds.basic.security.restful.impl.SecurityRestfulImpl.*(..))"/>
+	      
+	      <aop:around method="requestLog" pointcut="execution(* com.isprint.server.mc.module.mc.restful.impl.*RestfulImpl.*(..))"/>
+	      
+	      <!--  <aop:around method="uaidQuery" pointcut="execution(* com.isprint.server.cds.module.customer.restful.impl.CustomerRestfulImpl.ribbonUaidInfo(..))"/>
+	       -->
+	    </aop:aspect>
+  </aop:config>
+  
+  
+  
+  <!--  bean id="phoneRequestAop" class="StartUpCleanTask"/> -->
+
+  
+  
+
+</beans>
