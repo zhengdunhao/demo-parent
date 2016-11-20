@@ -19,3 +19,26 @@ html, body {
 	background: -moz-linear-gradient(top, #f2f3f7, #e4e8ec);
 	background: linear-gradient(top, #f2f3f7, #e4e8ec);
 }
+
+.loginForm{
+	width:250px;
+	height:300px;
+	float:right;
+	margin-top:50px;
+	margin-right:30px;
+	border: 1px solid #ccc;
+	-moz-border-radius:15px; 
+    -webkit-border-radius: 15px;
+	border-radius:15px;
+	display:none;
+}
+
+.loginForm ul li{
+	list-style-type:none;
+}
+
+.loginForm ul li input{
+	-moz-border-radius:3px; 
+    -webkit-border-radius: 3px;
+	border-radius:3px;
+}
