@@ -27,6 +27,7 @@
                   <artifactId>demo-basic</artifactId>
                   <version>${project.version}</version>
             </dependency>
+            
            
       </dependencies>
       <build>

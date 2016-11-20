@@ -13,8 +13,13 @@ public class UserLoginController {
 
 	@RequestMapping(value="/user/forwardUserLogin")
 	public ModelAndView forwardUserLogin(HttpServletRequest request,HttpServletResponse response){
-		System.out.println("forwardUserLogin");
-		ModelAndView mv = new ModelAndView("login/login");
+		ModelAndView mv = new ModelAndView("login/welcome");
+		return mv;
+	}
+	
+	@RequestMapping(value="/companyLogin")
+	public ModelAndView companyLogin(HttpServletRequest request,HttpServletResponse response){
+		ModelAndView mv = new ModelAndView("login/companyLogin");
 		return mv;
 	}
 }
